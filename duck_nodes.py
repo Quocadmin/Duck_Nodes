@@ -232,7 +232,7 @@ class Duck_LoadWordLine:
 class Duck_PromptLoader:
     @classmethod
     def INPUT_TYPES(cls):
-        return {"required": {"file_path": ("STRING", {"default": "C:\\path\\to\\your\\prompts.txt"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
+        return {"required": {"file_path": ("STRING", {"default": "C:\path\to\your\file.txt"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
     RETURN_TYPES = ("STRING", "INT"); RETURN_NAMES = ("prompt", "line_count"); FUNCTION = "load_prompt"; CATEGORY = "Duck Nodes/LocalFiles"
     def load_prompt(self, file_path, seed):
         clean_path = file_path.strip().strip('"')
