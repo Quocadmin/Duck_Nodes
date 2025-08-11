@@ -7,8 +7,10 @@
 ## ✨ Tính năng chính
 
 ### 📂 Nodes xử lý dữ liệu
+  Lấy dòng dữ liệu từ các tệp dữ liệu lớn, mỗi hàng được hiểu là một prompt.
+
 - **Duck - Load Google Sheet Row**  
-  Lấy dòng dữ liệu từ Google Sheet (công khai) dựa trên cột và chỉ số ngẫu nhiên (seed).
+  Lấy dòng dữ liệu từ Google Sheet (công khai).
   
 - **Duck - Load Google Doc Line**  
   Lấy dòng văn bản từ Google Docs (công khai).
