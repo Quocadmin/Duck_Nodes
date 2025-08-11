@@ -98,21 +98,6 @@ Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới
 
 ---
 
-## 📁 Cấu trúc thư mục
-
-```
-duck-nodes/
-│
-├── duck_nodes.py       # Định nghĩa các node xử lý dữ liệu
-├── password.py         # Hệ thống login & middleware bảo mật
-├── __init__.py         # Khởi tạo, auto-install dependencies
-├── login.html          # Giao diện trang đăng nhập
-├── requirements.txt    # Danh sách thư viện cần thiết
-└── README.md           # Tài liệu hướng dẫn (file này)
-```
-
----
-
 ## 🖼️ Giao diện đăng nhập
 <img width="882" height="512" alt="image" src="https://github.com/user-attachments/assets/b12cb978-8a5a-4c06-87b7-1211eb1ddeda" />
 
