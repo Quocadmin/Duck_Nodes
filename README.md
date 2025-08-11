@@ -73,12 +73,13 @@ Khi lần đầu truy cập ComfyUI, bạn sẽ được yêu cầu **tạo user
 
 
 ### 2. Truy cập trang đăng nhập
-Mở trình duyệt:
-```
-http://127.0.0.1:8188
-```
+
+## 🖼️ Giao diện đăng nhập
 - Nhập **username** và **password** để đăng nhập.
-  
+<img width="882" height="512" alt="image" src="https://github.com/user-attachments/assets/b12cb978-8a5a-4c06-87b7-1211eb1ddeda" />
+
+---
+
 ### 3. Sử dụng các node Duck
 Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới:
 - Duck - Load Google Sheet Row
@@ -102,11 +103,6 @@ Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới
 - **Session cookie** được mã hóa bằng key ngẫu nhiên khi server khởi động.
 ---
 
-## 🖼️ Giao diện đăng nhập
-<img width="882" height="512" alt="image" src="https://github.com/user-attachments/assets/b12cb978-8a5a-4c06-87b7-1211eb1ddeda" />
-
----
-
 ## 📝 Giấy phép
 
 MIT License © 2025 Duck VN
@@ -114,6 +110,7 @@ MIT License © 2025 Duck VN
 Bạn được phép sử dụng, sửa đổi và phân phối phần mềm này cho mục đích cá nhân hoặc thương mại, miễn là giữ lại thông tin bản quyền.
 
 ---
+
 
 
 
