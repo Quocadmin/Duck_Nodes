@@ -99,7 +99,7 @@ Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới
 
 ## 📝 Giấy phép
 
-MIT License © 2025 Duck VN
+MIT License © 2025 Duck Martians AI Labs
 
 Bạn được phép sử dụng, sửa đổi và phân phối phần mềm này cho mục đích cá nhân hoặc thương mại, miễn là giữ lại thông tin bản quyền.
 
