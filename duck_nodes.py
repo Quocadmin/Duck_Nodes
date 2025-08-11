@@ -162,8 +162,8 @@ def col_to_index(col_str):
 class Duck_LoadGoogleSheetOneRow:
     @classmethod
     def INPUT_TYPES(cls):
-        return {"required": {"Url": ("STRING", {"default": "URL của Google Sheet"}), "Column": ("STRING", {"default": "A2:A"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
-    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("row",); OUTPUT_IS_LIST = (True,); FUNCTION = "load_one_row"; CATEGORY = "Duck Nodes/GoogleSheet"
+        return {"required": {"Url": ("STRING", {"default": "Google Sheet URL"}), "Column": ("STRING", {"default": "A2:A"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
+    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("prompt",); OUTPUT_IS_LIST = (True,); FUNCTION = "load_one_row"; CATEGORY = "Duck Nodes/GoogleSheet"
     def load_one_row(self, Url, Column, seed):
         if "https://docs.google.com/spreadsheets/d/" not in Url: return ([""],)
         try:
@@ -183,8 +183,8 @@ class Duck_LoadGoogleSheetOneRow:
 class Duck_LoadGoogleDocLine:
     @classmethod
     def INPUT_TYPES(cls):
-        return {"required": {"Url": ("STRING", {"default": "URL của Google Docs"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
-    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("line",); FUNCTION = "load_line"; CATEGORY = "Duck Nodes/GoogleDocs"
+        return {"required": {"Url": ("STRING", {"default": "Google Docs URL"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
+    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("prompt",); FUNCTION = "load_line"; CATEGORY = "Duck Nodes/GoogleDocs"
     def load_line(self, Url, seed):
         if "https://docs.google.com/document/d/" not in Url: return ("",)
         try:
@@ -199,7 +199,7 @@ class Duck_LoadExcelRow:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {"file_path": ("STRING", {"default": "C:\\path\\to\\your\\file.xlsx"}), "sheet_name": ("STRING", {"default": "Sheet1"}), "Column": ("STRING", {"default": "A1:A"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
-    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("row",); OUTPUT_IS_LIST = (True,); FUNCTION = "load_row"; CATEGORY = "Duck Nodes/LocalFiles"
+    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("prompt",); OUTPUT_IS_LIST = (True,); FUNCTION = "load_row"; CATEGORY = "Duck Nodes/LocalFiles"
     def load_row(self, file_path, sheet_name, Column, seed):
         clean_path = file_path.strip().strip('"')
         if not os.path.exists(clean_path) or not clean_path.lower().endswith('.xlsx'): return ([[]],)
@@ -219,7 +219,7 @@ class Duck_LoadWordLine:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {"file_path": ("STRING", {"default": "C:\\path\\to\\your\\file.docx"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
-    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("line",); FUNCTION = "load_line"; CATEGORY = "Duck Nodes/LocalFiles"
+    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("prompt",); FUNCTION = "load_line"; CATEGORY = "Duck Nodes/LocalFiles"
     def load_line(self, file_path, seed):
         clean_path = file_path.strip().strip('"')
         if not os.path.exists(clean_path) or not clean_path.lower().endswith('.docx'): return ("",)
