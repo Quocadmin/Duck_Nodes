@@ -75,11 +75,10 @@ Khi lần đầu truy cập ComfyUI, bạn sẽ được yêu cầu **tạo user
 ### 2. Truy cập trang đăng nhập
 Mở trình duyệt:
 ```
-http://127.0.0.1:8188/login
+http://127.0.0.1:8188
 ```
 - Nhập **username** và **password** để đăng nhập.
-- Nếu muốn gọi API trực tiếp, có thể dùng **token** (lấy từ file `login/PASSWORD` trong thư mục cài ComfyUI).
-
+  
 ### 3. Sử dụng các node Duck
 Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới:
 - Duck - Load Google Sheet Row
@@ -115,6 +114,7 @@ MIT License © 2025 Duck VN
 Bạn được phép sử dụng, sửa đổi và phân phối phần mềm này cho mục đích cá nhân hoặc thương mại, miễn là giữ lại thông tin bản quyền.
 
 ---
+
 
 
 
