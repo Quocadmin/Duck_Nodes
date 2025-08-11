@@ -10,10 +10,10 @@
   Lấy dòng dữ liệu từ các tệp dữ liệu lớn, mỗi hàng được hiểu là một prompt.
 
 - **Duck - Load Google Sheet Row**  
-  Lấy dòng dữ liệu từ Google Sheet (công khai).
+  Lấy dòng dữ liệu từ Google Sheet (mở quyền xem công khai).
   
 - **Duck - Load Google Doc Line**  
-  Lấy dòng văn bản từ Google Docs (công khai).
+  Lấy dòng văn bản từ Google Docs (mở quyền xem công khai).
 
 - **Duck - Load Excel Row**  
   Lấy dòng từ file Excel (.xlsx) lưu trên máy.
@@ -115,5 +115,6 @@ MIT License © 2025 Duck VN
 Bạn được phép sử dụng, sửa đổi và phân phối phần mềm này cho mục đích cá nhân hoặc thương mại, miễn là giữ lại thông tin bản quyền.
 
 ---
+
 
 
