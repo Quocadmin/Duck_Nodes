@@ -1,0 +1,25 @@
+[project]
+name = "Duck Nodes"
+description = "Load data from Google Sheets, Google Docs, Excel, Word, and TXT with built-in login system for ComfyUI."
+version = "1.0.0"
+license = { file = "LICENSE" }
+dependencies = [
+    "aiohttp",
+    "aiohttp_session[secure]",
+    "Jinja2",
+    "bcrypt",
+    "pycryptodome",
+    "pandas",
+    "requests",
+    "openpyxl",
+    "python-docx"
+]
+
+[project.urls]
+Repository = "https://github.com/duckmartinas/Duck_Nodes"
+# Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "duckmartians"
+DisplayName = "Duck Nodes"
+Icon = ""
