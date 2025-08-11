@@ -87,6 +87,12 @@ Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới
 - Duck - Load Excel Row
 - Duck - Load Word Line
 - Duck - Load Prompt From File
+<img width="1033" height="778" alt="image" src="https://github.com/user-attachments/assets/5d2cef69-3c90-4552-b3bf-e0a0c02f1611" />
+
+📌 Cách hoạt động:
+- Khi bạn bật increment mode, ComfyUI sẽ nhớ vị trí dòng cuối cùng đã đọc từ file/tập dữ liệu.
+- Lần chạy tiếp theo, nó tăng chỉ số dòng lên 1 (increment), rồi đọc prompt ở dòng mới theo đúng thứ tự.
+- Khi tới dòng cuối cùng → sẽ quay về dòng đầu (vòng tròn).
 
 ---
 
@@ -109,4 +115,5 @@ MIT License © 2025 Duck VN
 Bạn được phép sử dụng, sửa đổi và phân phối phần mềm này cho mục đích cá nhân hoặc thương mại, miễn là giữ lại thông tin bản quyền.
 
 ---
+
 
