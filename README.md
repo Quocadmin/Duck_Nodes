@@ -39,7 +39,9 @@
 Clone repository này vào thư mục `custom_nodes` của ComfyUI:
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/duckmartians/duck-nodes.git
+```
+```bash
+git clone https://github.com/duckmartians/Duck_Nodes.git
 ```
 
 ### 2. Cài đặt dependencies
