@@ -80,7 +80,8 @@ Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới
 - Duck - Load Excel Row
 - Duck - Load Word Line
 - Duck - Load Prompt From File
-<img width="1033" height="778" alt="image" src="https://github.com/user-attachments/assets/5d2cef69-3c90-4552-b3bf-e0a0c02f1611" />
+<img width="1028" height="830" alt="image" src="https://github.com/user-attachments/assets/a8a244bc-af51-456b-bb8f-633b41fe1cbf" />
+
 
 📌 Cách hoạt động:
 - Khi bạn bật increment mode, ComfyUI sẽ nhớ vị trí dòng cuối cùng đã đọc từ file/tập dữ liệu.
