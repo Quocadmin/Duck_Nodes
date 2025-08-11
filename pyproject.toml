@@ -1,7 +1,7 @@
 [project]
 name = "Duck_Nodes"
 description = "Load data from Google Sheets, Google Docs, Excel, Word, and TXT with built-in login system for ComfyUI."
-version = "1.0.3"
+version = "1.0.7"
 license = {file = "LICENSE"}
 dependencies = ["pandas", "requests", "openpyxl", "python-docx", "aiohttp_session", "bcrypt", "Jinja2"]
 
@@ -11,5 +11,5 @@ Repository = "https://github.com/duckmartians/Duck_Nodes"
 [tool.comfy]
 PublisherId = "duckmartians"
 DisplayName = "Duck_Nodes"
-Icon = ""
+Icon = "https://github.com/duckmartians/Duck_Nodes/blob/main/images/icon.png"
 includes = []
