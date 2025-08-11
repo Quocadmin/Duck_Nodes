@@ -1,10 +1,7 @@
-# Thư viện cho các node xử lý file
 pandas
 requests
 openpyxl
 python-docx
-
-# Thư viện cho hệ thống đăng nhập
 aiohttp_session
 bcrypt
 Jinja2
