@@ -63,8 +63,10 @@ Jinja2
 ## 🚀 Sử dụng
 
 ### 1. Khởi động ComfyUI
-Chạy ComfyUI như bình thường, extension sẽ được tự động tải:
+Chạy ComfyUI như bình thường, extension sẽ được tự động tải.
 Khi lần đầu truy cập ComfyUI, bạn sẽ được yêu cầu **tạo username và password**.
+<img width="822" height="636" alt="image" src="https://github.com/user-attachments/assets/00f3240f-cfa9-47db-92c2-1c5218395c15" />
+
 
 ### 2. Truy cập trang đăng nhập
 Mở trình duyệt:
@@ -108,9 +110,7 @@ duck-nodes/
 ---
 
 ## 🖼️ Giao diện đăng nhập
-
-<img width="1919" height="911" alt="image" src="https://github.com/user-attachments/assets/578d5351-aaa6-4924-9df5-47a650afa56c" />
-
+<img width="882" height="512" alt="image" src="https://github.com/user-attachments/assets/b12cb978-8a5a-4c06-87b7-1211eb1ddeda" />
 
 ---
 
