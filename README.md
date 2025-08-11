@@ -8,19 +8,19 @@
 
 ### 📂 Nodes xử lý dữ liệu
 - **Duck - Load Google Sheet Row**  
-  Lấy một dòng dữ liệu từ Google Sheet (công khai) dựa trên cột và chỉ số ngẫu nhiên (seed).
+  Lấy dòng dữ liệu từ Google Sheet (công khai) dựa trên cột và chỉ số ngẫu nhiên (seed).
   
 - **Duck - Load Google Doc Line**  
-  Lấy một dòng văn bản từ Google Docs (công khai).
+  Lấy dòng văn bản từ Google Docs (công khai).
 
 - **Duck - Load Excel Row**  
-  Lấy một dòng từ file Excel (.xlsx) lưu trên máy.
+  Lấy dòng từ file Excel (.xlsx) lưu trên máy.
 
 - **Duck - Load Word Line**  
-  Lấy một dòng từ file Word (.docx) lưu trên máy.
+  Lấy dòng từ file Word (.docx) lưu trên máy.
 
 - **Duck - Load Prompt From File**  
-  Lấy một prompt từ file `.txt` dựa trên seed.
+  Lấy dòng từ file `.txt` lưu trên máy.
 
 ### 🔒 Hệ thống đăng nhập bảo mật
 - Trang login đẹp, hỗ trợ **username + password**.
