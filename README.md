@@ -24,13 +24,6 @@
 - **Duck - Load Prompt From File**  
   Lấy dòng từ file `.txt` lưu trên máy.
 
-### 🔒 Hệ thống đăng nhập bảo mật
-- Trang login đẹp, hỗ trợ **username + password**.
-- Mã hóa mật khẩu bằng **bcrypt**.
-- Hỗ trợ xác thực bằng **Bearer Token** hoặc query `?token=...`.
-- Session bảo mật bằng **EncryptedCookieStorage**.
-- Middleware kiểm tra quyền truy cập trước khi vào ComfyUI.
-
 ---
 
 ## 📦 Cài đặt
@@ -110,6 +103,7 @@ MIT License © 2025 Duck VN
 Bạn được phép sử dụng, sửa đổi và phân phối phần mềm này cho mục đích cá nhân hoặc thương mại, miễn là giữ lại thông tin bản quyền.
 
 ---
+
 
 
 
