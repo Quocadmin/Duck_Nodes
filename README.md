@@ -64,10 +64,6 @@ Jinja2
 
 ### 1. Khởi động ComfyUI
 Chạy ComfyUI như bình thường, extension sẽ được tự động tải:
-```bash
-python main.py
-```
-
 Khi lần đầu truy cập ComfyUI, bạn sẽ được yêu cầu **tạo username và password**.
 
 ### 2. Truy cập trang đăng nhập
