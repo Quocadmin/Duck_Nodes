@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ComfyUI Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        font-family: Arial, sans-serif;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .login-card {
+        background: rgba(0, 0, 0, 0.85);
+        padding: 30px 35px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 380px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        animation: zoomIn 0.4s ease;
+    }
+    .logo {
+        text-align: center;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+    .title {
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    #feedback {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    .minor {
+        font-style: italic;
+        font-size: 12px;
+        color: #bbb;
+    }
+    label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 5px;
+        color: #ccc;
+    }
+    .input-group {
+        position: relative;
+        margin-bottom: 15px;
+    }
+    .input-group input {
+        width: 100%;
+        padding: 10px 38px 10px 32px; 
+        border: none;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.1);
+        color: white;
+        font-size: 14px;
+        outline: none;
+        box-sizing: border-box; 
+        transition: background 0.3s;
+    }
+    .input-group input:focus {
+        background: rgba(255,255,255,0.2);
+    }
+    .input-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 14px;
+        pointer-events: none;
+        opacity: 0.7;
+    }
+    .toggle-pwd {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 14px;
+        opacity: 0.7;
+    }
+    .login-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(45deg, #26a69a, #ff9800);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s, opacity 0.2s;
+    }
+    .login-btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+    @keyframes zoomIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="logo">🦆</div>
+    <div class="title" id="greet-title">ComfyUI Login</div>
+
+    <div id="feedback">
+        {% if prompt_for_username %}
+            <p>Please also set a username.</p>
+        {% endif %}
+        {% if first_time %}
+            <p>🎉 Welcome!</p>
+            <p>First time here? Set your username and password!</p>
+            <p class="minor">They’ll be saved securely for easy login next time.</p>
+        {% else %}
+            <p>🌿 Welcome back! Let’s grow something beautiful.</p>
+        {% endif %}
+        {% if wrong_password %}
+            <p>❌ Wrong Password.</p>
+        {% endif %}
+    </div>
+
+    <form action="/login" method="post">
+        {% if first_time or prompt_for_username %}
+            <label>Username</label>
+            <div class="input-group">
+                <span class="input-icon">👤</span>
+                <input type="text" id="username" name="username" placeholder="Enter username" required>
+            </div>
+        {% endif %}
+
+        <label>Password</label>
+        <div class="input-group">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="password" name="password" placeholder="Enter password" required>
+            <span class="toggle-pwd" onclick="togglePassword()">👁</span>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+</div>
+
+<script>
+    function togglePassword() {
+        const pwd = document.getElementById("password");
+        pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
+    window.onload = function() {
+        // Auto focus
+        var usernameInput = document.getElementById('username');
+        if (usernameInput) {
+            usernameInput.focus();
+        } else {
+            document.getElementById('password').focus();
+        }
+        // Greeting by time
+        const hours = new Date().getHours();
+        const greet = hours < 12 ? "Good Morning" : hours < 18 ? "Good Afternoon" : "Good Evening";
+        document.getElementById('greet-title').innerText = `${greet}, welcome to ComfyUI`;
+    };
+</script>
+
+</body>
+</html>
