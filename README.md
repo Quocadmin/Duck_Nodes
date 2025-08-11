@@ -24,13 +24,6 @@ Lấy dòng từ file Word (.docx) lưu trên máy.
 - **Duck - Load Prompt From File**  
 Lấy dòng từ file `.txt` lưu trên máy.
 
-### 🔒 Hệ thống đăng nhập bảo mật
-- Trang login đẹp, hỗ trợ **username + password**.
-- Mã hóa mật khẩu bằng **bcrypt**.
-- Hỗ trợ xác thực bằng **Bearer Token** hoặc query `?token=...`.
-- Session bảo mật bằng **EncryptedCookieStorage**.
-- Middleware kiểm tra quyền truy cập trước khi vào ComfyUI.
-
 ---
 
 ## 📦 Cài đặt
