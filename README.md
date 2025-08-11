@@ -84,7 +84,7 @@ Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới
 
 
 📌 Cách hoạt động:
-- Khi bạn bật increment mode, ComfyUI sẽ nhớ vị trí dòng cuối cùng đã đọc từ file/tập dữ liệu.
+- Khi bạn bật increment mode, ComfyUI sẽ nhớ vị trí dòng cuối cùng đã đọc từ file/tập dữ liệu (seed = 0 sẽ bắt đầu chạy từ dòng 1).
 - Lần chạy tiếp theo, nó tăng chỉ số dòng lên 1 (increment), rồi đọc prompt ở dòng mới theo đúng thứ tự.
 - Khi tới dòng cuối cùng → sẽ quay về dòng đầu (vòng tròn).
 
