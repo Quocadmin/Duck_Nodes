@@ -26,7 +26,7 @@ import folder_paths
 
 node_dir = os.path.dirname(__file__)
 comfy_dir = os.path.dirname(folder_paths.__file__)
-password_path = os.path.join(comfy_dir, "login", "PASSWORD")
+password_path = os.path.join(comfy_dir, "user", "PASSWORD")
 TOKEN = ""
 user_cache = {}
 
@@ -111,6 +111,7 @@ async def login_handler(request):
     else:
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(password_input, salt)
+        os.makedirs(os.path.dirname(password_path), exist_ok=True)
         with open(password_path, "wb") as file:
             file.write(hashed_password + b'\n' + username_input.encode('utf-8'))
         user_cache['username'] = username_input
@@ -144,13 +145,24 @@ async def check_login_status(request: web.Request, handler):
         return await process_request(request, handler)
     raise web.HTTPFound('/login')
 
-if not os.path.exists(os.path.dirname(password_path)):
-    os.makedirs(os.path.dirname(password_path))
-old_password_path = os.path.join(comfy_dir, "PASSWORD")
-if os.path.exists(old_password_path):
-    os.rename(old_password_path, password_path)
+target_user_dir = os.path.dirname(password_path)
+if not os.path.exists(target_user_dir):
+    os.makedirs(target_user_dir)
+
+legacy_login_path = os.path.join(comfy_dir, "login", "PASSWORD")
+legacy_root_path = os.path.join(comfy_dir, "PASSWORD")
+
+if not os.path.exists(password_path):
+    if os.path.exists(legacy_login_path):
+        print(f"Duck Nodes: Migrating password file from '{legacy_login_path}' to '{password_path}'")
+        os.rename(legacy_login_path, password_path)
+    elif os.path.exists(legacy_root_path):
+        print(f"Duck Nodes: Migrating password file from '{legacy_root_path}' to '{password_path}'")
+        os.rename(legacy_root_path, password_path)
+
 load_token()
 app.middlewares.append(check_login_status)
+
 
 def col_to_index(col_str):
     col_str = col_str.upper()
@@ -163,7 +175,13 @@ class Duck_LoadGoogleSheetOneRow:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {"Url": ("STRING", {"default": "Google Sheet URL"}), "Column": ("STRING", {"default": "A2:A"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
-    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("prompt",); OUTPUT_IS_LIST = (True,); FUNCTION = "load_one_row"; CATEGORY = "Duck Nodes/GoogleSheet"
+    
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("prompt",) # SỬA THEO YÊU CẦU
+    OUTPUT_IS_LIST = (True,)
+    FUNCTION = "load_one_row"
+    CATEGORY = "Duck Nodes/GoogleSheet"
+    
     def load_one_row(self, Url, Column, seed):
         if "https://docs.google.com/spreadsheets/d/" not in Url: return ([""],)
         try:
@@ -172,10 +190,17 @@ class Duck_LoadGoogleSheetOneRow:
             df = pd.read_csv(io.StringIO(response.content.decode('utf-8')), header=None); df.dropna(how='all', inplace=True)
             if df.empty: return ([""],)
             if Column.strip():
-                start_column, end_column_maybe = Column.split(":"); start_col_str, start_row_str = re.match(r"([A-Z]+)(\d+)", start_column).groups(); end_col_match = re.match(r"([A-Z]+)(\d*)", end_column_maybe); end_col_str, end_row_str = end_col_match.group(1), end_col_match.group(2)
-                start_col, end_col = col_to_index(start_col_str), col_to_index(end_col_str); start_row, end_row = int(start_row_str) - 1, int(end_row_str) if end_row_str else len(df)
+                start_column, end_column_maybe = Column.split(":"); 
+                start_col_str, start_row_str_match = re.match(r"([A-Z]+)(\d*)", start_column).groups();
+                start_row_str = start_row_str_match if start_row_str_match else "1";
+                end_col_match = re.match(r"([A-Z]+)(\d*)", end_column_maybe);
+                end_col_str, end_row_str = end_col_match.group(1), end_col_match.group(2)
+                start_col, end_col = col_to_index(start_col_str), col_to_index(end_col_str);
+                start_row = int(start_row_str) - 1; 
+                end_row = int(end_row_str) if end_row_str else len(df)
                 rows = df.iloc[start_row:end_row, start_col:end_col+1].values.tolist()
-            else: rows = df.values.tolist()
+            else: 
+                rows = df.values.tolist()
             if not rows: return ([""],)
             idx = seed % len(rows); selected_row = rows[idx]; result = [str(column) if pd.notna(column) else "" for column in selected_row]; return (result,)
         except Exception as e: print(f"❌ Lỗi khi tải hoặc xử lý Google Sheet: {e}"); return ([""],)
@@ -184,7 +209,10 @@ class Duck_LoadGoogleDocLine:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {"Url": ("STRING", {"default": "Google Docs URL"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
-    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("prompt",); FUNCTION = "load_line"; CATEGORY = "Duck Nodes/GoogleDocs"
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("prompt",) # SỬA THEO YÊU CẦU
+    FUNCTION = "load_line"
+    CATEGORY = "Duck Nodes/GoogleDocs"
     def load_line(self, Url, seed):
         if "https://docs.google.com/document/d/" not in Url: return ("",)
         try:
@@ -199,7 +227,13 @@ class Duck_LoadExcelRow:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {"file_path": ("STRING", {"default": "C:\\path\\to\\your\\file.xlsx"}), "sheet_name": ("STRING", {"default": "Sheet1"}), "Column": ("STRING", {"default": "A1:A"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
-    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("prompt",); OUTPUT_IS_LIST = (True,); FUNCTION = "load_row"; CATEGORY = "Duck Nodes/LocalFiles"
+    
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("prompt",) # SỬA THEO YÊU CẦU
+    OUTPUT_IS_LIST = (True,)
+    FUNCTION = "load_row"
+    CATEGORY = "Duck Nodes/LocalFiles"
+
     def load_row(self, file_path, sheet_name, Column, seed):
         clean_path = file_path.strip().strip('"')
         if not os.path.exists(clean_path) or not clean_path.lower().endswith('.xlsx'): return ([[]],)
@@ -219,7 +253,10 @@ class Duck_LoadWordLine:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {"file_path": ("STRING", {"default": "C:\\path\\to\\your\\file.docx"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
-    RETURN_TYPES = ("STRING",); RETURN_NAMES = ("prompt",); FUNCTION = "load_line"; CATEGORY = "Duck Nodes/LocalFiles"
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("prompt",) # SỬA THEO YÊU CẦU
+    FUNCTION = "load_line"
+    CATEGORY = "Duck Nodes/LocalFiles"
     def load_line(self, file_path, seed):
         clean_path = file_path.strip().strip('"')
         if not os.path.exists(clean_path) or not clean_path.lower().endswith('.docx'): return ("",)
@@ -232,7 +269,7 @@ class Duck_LoadWordLine:
 class Duck_PromptLoader:
     @classmethod
     def INPUT_TYPES(cls):
-        return {"required": {"file_path": ("STRING", {"default": "C:\path\to\your\file.txt"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
+        return {"required": {"file_path": ("STRING", {"default": "C:\\path\\to\\your\\file.txt"}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),}}
     RETURN_TYPES = ("STRING", "INT"); RETURN_NAMES = ("prompt", "line_count"); FUNCTION = "load_prompt"; CATEGORY = "Duck Nodes/LocalFiles"
     def load_prompt(self, file_path, seed):
         clean_path = file_path.strip().strip('"')
