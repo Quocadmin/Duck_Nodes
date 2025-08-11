@@ -95,22 +95,6 @@ Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới
 - **Mật khẩu** được lưu dưới dạng **hash bcrypt**, không lưu plaintext.  
 - **Token API** là chuỗi hash của mật khẩu.  
 - **Session cookie** được mã hóa bằng key ngẫu nhiên khi server khởi động.
-
----
-
-## 📁 Cấu trúc thư mục
-
-```
-duck-nodes/
-│
-├── duck_nodes.py       # Định nghĩa các node xử lý dữ liệu
-├── password.py         # Hệ thống login & middleware bảo mật
-├── __init__.py         # Khởi tạo, auto-install dependencies
-├── login.html          # Giao diện trang đăng nhập
-├── requirements.txt    # Danh sách thư viện cần thiết
-└── README.md           # Tài liệu hướng dẫn (file này)
-```
-
 ---
 
 ## 🖼️ Giao diện đăng nhập
@@ -125,3 +109,4 @@ MIT License © 2025 Duck VN
 Bạn được phép sử dụng, sửa đổi và phân phối phần mềm này cho mục đích cá nhân hoặc thương mại, miễn là giữ lại thông tin bản quyền.
 
 ---
+
