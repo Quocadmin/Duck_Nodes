@@ -4,11 +4,15 @@ import subprocess
 import os
 import traceback
 
+WEB_DIRECTORY = "web"
+
 def install_required_packages():
+    """Kiểm tra và cài đặt các thư viện Python còn thiếu từ requirements.txt."""
     print("--- Duck Nodes: Checking for missing package dependencies ---")
     requirements_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "requirements.txt")
     if not os.path.exists(requirements_path):
         return
+    
     python_executable = sys.executable
     with open(requirements_path, 'r', encoding='utf-8') as f:
         required_packages = [line.strip() for line in f if line.strip() and not line.startswith('#')]
@@ -41,7 +45,7 @@ try:
     print(f"✅ Đã tải {len(NODE_CLASS_MAPPINGS)} nodes từ gói Duck Nodes.")
     print("🔒 Hệ thống đăng nhập đã được tích hợp và kích hoạt.")
 
-    __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
+    __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS', 'WEB_DIRECTORY']
 
 except Exception:
     print("❌ Lỗi nghiêm trọng khi tải Duck Nodes. Vui lòng kiểm tra lại file duck_nodes.py.")

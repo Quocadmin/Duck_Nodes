@@ -1,179 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang }}">
 <head>
 <meta charset="UTF-8">
-<title>ComfyUI Login</title>
+<title>{{ T.comfyui_login }}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <style>
     body {
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        font-family: Arial, sans-serif;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+        margin: 0; padding: 0; background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        font-family: Arial, sans-serif; color: #fff; display: flex;
+        justify-content: center; align-items: center; min-height: 100vh;
     }
     .login-card {
-        background: rgba(0, 0, 0, 0.85);
-        padding: 30px 35px;
-        border-radius: 12px;
-        width: 100%;
-        max-width: 380px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        background: rgba(0, 0, 0, 0.85); padding: 30px 35px; border-radius: 12px;
+        width: 100%; max-width: 380px; box-shadow: 0 8px 20px rgba(0,0,0,0.6);
         animation: zoomIn 0.4s ease;
-    }
-    .logo {
-        text-align: center;
-        font-size: 40px;
-        margin-bottom: 10px;
-    }
-    .title {
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-    #feedback {
-        background-color: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
-        padding: 12px;
-        margin-bottom: 20px;
-        font-size: 14px;
-        line-height: 1.4;
-    }
-    .minor {
-        font-style: italic;
-        font-size: 12px;
-        color: #bbb;
-    }
-    label {
-        display: block;
-        font-size: 13px;
-        margin-bottom: 5px;
-        color: #ccc;
-    }
-    .input-group {
         position: relative;
-        margin-bottom: 15px;
     }
+    .logo { text-align: center; font-size: 40px; margin-bottom: 10px; padding-top: 20px; }
+    .title { text-align: center; font-size: 22px; font-weight: bold; margin-bottom: 20px; }
+    #feedback {
+        background-color: rgba(255, 255, 255, 0.05); border-radius: 8px;
+        padding: 12px; margin-bottom: 20px; font-size: 14px; line-height: 1.4;
+        border-left: 3px solid #ff9800;
+    }
+    #feedback.success { border-left-color: #26a69a; }
+    label { display: block; font-size: 13px; margin-bottom: 5px; color: #ccc; }
+    .input-group { position: relative; margin-bottom: 15px; }
     .input-group input {
-        width: 100%;
-        padding: 10px 38px 10px 32px; 
-        border: none;
-        border-radius: 8px;
-        background: rgba(255,255,255,0.1);
-        color: white;
-        font-size: 14px;
-        outline: none;
-        box-sizing: border-box; 
-        transition: background 0.3s;
+        width: 100%; padding: 10px 12px; border: none; border-radius: 8px;
+        background: rgba(255,255,255,0.1); color: white; font-size: 14px;
+        outline: none; box-sizing: border-box; transition: background 0.3s;
     }
-    .input-group input:focus {
-        background: rgba(255,255,255,0.2);
-    }
-    .input-icon {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 14px;
-        pointer-events: none;
-        opacity: 0.7;
-    }
-    .toggle-pwd {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        font-size: 14px;
-        opacity: 0.7;
-    }
+    .input-group input:focus { background: rgba(255,255,255,0.2); }
     .login-btn {
-        width: 100%;
-        padding: 12px;
-        background: linear-gradient(45deg, #26a69a, #ff9800);
-        border: none;
-        border-radius: 8px;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: transform 0.2s, opacity 0.2s;
+        width: 100%; padding: 12px; background: linear-gradient(45deg, #26a69a, #ff9800);
+        border: none; border-radius: 8px; color: white; font-size: 16px;
+        font-weight: bold; cursor: pointer; transition: transform 0.2s, opacity 0.2s;
+        margin-top: 10px;
     }
-    .login-btn:hover {
-        transform: translateY(-2px);
-        opacity: 0.9;
+    .login-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+    .secondary-btn {
+        width: 100%; padding: 10px; background: transparent;
+        border: 1px solid #555; border-radius: 8px; color: #ccc;
+        font-size: 14px; cursor: pointer; transition: background 0.2s; margin-top: 5px;
     }
-    @keyframes zoomIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
+    .secondary-btn:hover { background: rgba(255,255,255,0.1); }
+    .link-like {
+        background: none; border: none; color: #ff9800; cursor: pointer;
+        font-size: 12px; padding: 5px; text-decoration: underline; display: block; text-align: center; margin-top: 15px;
     }
+    .form-container { display: none; }
+    .actions-container { text-align: center; }
+    @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 </style>
 </head>
 <body>
 
 <div class="login-card">
     <div class="logo">🦆</div>
-    <div class="title" id="greet-title">ComfyUI Login</div>
+    <div class="title" id="greet-title">ComfyUI</div>
 
+    {% if feedback_msg %}
     <div id="feedback">
-        {% if prompt_for_username %}
-            <p>Please also set a username.</p>
-        {% endif %}
+        <p>{{ feedback_msg }}</p>
+    </div>
+    {% endif %}
+
+    <div id="login-form" class="form-container" style="display: block;">
+        <form action="/login" method="post">
+            <div class="title">
+                {% if first_time %}{{ T.create_your_account }}{% else %}{{ T.welcome_back }}{% endif %}
+            </div>
+            {% if first_time %}
+                <p style="font-size: 12px; text-align: center; color: #bbb; margin-top: -15px; margin-bottom: 15px;">
+                    {{ T.set_password_prompt }}
+                </p>
+                <label>{{ T.username }}</label>
+                <div class="input-group">
+                    <input type="text" id="username" name="username" placeholder="{{ T.enter_username }}" required>
+                </div>
+            {% endif %}
+
+            <label>{{ T.password }}</label>
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder="{{ T.enter_password }}" required>
+            </div>
+
+            <button type="submit" class="login-btn">
+                {% if first_time %}{{ T.register_login }}{% else %}{{ T.login }}{% endif %}
+            </button>
+        </form>
+
         {% if first_time %}
-            <p>🎉 Welcome!</p>
-            <p>First time here? Set your username and password!</p>
-            <p class="minor">They’ll be saved securely for easy login next time.</p>
+        <form action="/login/skip" method="post" style="margin-top: 5px;">
+             <button type="submit" class="secondary-btn">{{ T.skip_disable_login }}</button>
+        </form>
         {% else %}
-            <p>🌿 Welcome back! Let’s grow something beautiful.</p>
-        {% endif %}
-        {% if wrong_password %}
-            <p>❌ Wrong Password.</p>
+            <div class="actions-container">
+                <button class="link-like" onclick="toggleView('change-password-form')">{{ T.change_password_question }}</button>
+            </div>
         {% endif %}
     </div>
 
-    <form action="/login" method="post">
-        {% if first_time or prompt_for_username %}
-            <label>Username</label>
+    <div id="change-password-form" class="form-container">
+        <form action="/login/change" method="post">
+            <div class="title">{{ T.change_password }}</div>
+            <label>{{ T.old_password }}</label>
             <div class="input-group">
-                <span class="input-icon">👤</span>
-                <input type="text" id="username" name="username" placeholder="Enter username" required>
+                <input type="password" name="old_password" placeholder="{{ T.current_password }}" required>
             </div>
-        {% endif %}
-
-        <label>Password</label>
-        <div class="input-group">
-            <span class="input-icon">🔑</span>
-            <input type="password" id="password" name="password" placeholder="Enter password" required>
-            <span class="toggle-pwd" onclick="togglePassword()">👁</span>
+            <label>{{ T.new_password }}</label>
+            <div class="input-group">
+                <input type="password" name="new_password" placeholder="{{ T.choose_new_password }}" required>
+            </div>
+            <label>{{ T.confirm_new_password }}</label>
+            <div class="input-group">
+                <input type="password" name="confirm_password" placeholder="{{ T.confirm_the_new_password }}" required>
+            </div>
+            <button type="submit" class="login-btn">{{ T.update_password }}</button>
+        </form>
+        <div class="actions-container">
+            <button class="link-like" onclick="toggleView('login-form')">{{ T.back_to_login }}</button>
         </div>
+    </div>
 
-        <button type="submit" class="login-btn">Login</button>
-    </form>
 </div>
 
 <script>
-    function togglePassword() {
-        const pwd = document.getElementById("password");
-        pwd.type = pwd.type === "password" ? "text" : "password";
+    function toggleView(formIdToShow) {
+        document.querySelectorAll('.form-container').forEach(form => {
+            form.style.display = 'none';
+        });
+        document.getElementById(formIdToShow).style.display = 'block';
+        
+        const feedbackEl = document.getElementById('feedback');
+        if (feedbackEl) {
+            feedbackEl.innerHTML = '';
+        }
     }
 
     window.onload = function() {
-        // Auto focus
-        var usernameInput = document.getElementById('username');
+        const usernameInput = document.getElementById('username');
         if (usernameInput) {
             usernameInput.focus();
         } else {
             document.getElementById('password').focus();
         }
-        // Greeting by time
+
+        const feedback = document.getElementById('feedback');
+        if (feedback) {
+            const feedbackText = feedback.innerText;
+            if (feedbackText.includes('success') || feedbackText.includes('thành công')) {
+                feedback.classList.add('success');
+            }
+        }
+
         const hours = new Date().getHours();
-        const greet = hours < 12 ? "Good Morning" : hours < 18 ? "Good Afternoon" : "Good Evening";
-        document.getElementById('greet-title').innerText = `${greet}, welcome to ComfyUI`;
+        const t = {
+            good_morning: "{{ T.good_morning }}",
+            good_afternoon: "{{ T.good_afternoon }}",
+            good_evening: "{{ T.good_evening }}",
+        };
+        const greet = hours < 12 ? t.good_morning : hours < 18 ? t.good_afternoon : t.good_evening;
+        document.getElementById('greet-title').innerText = greet;
     };
 </script>
 
