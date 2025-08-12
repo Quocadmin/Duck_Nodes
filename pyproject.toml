@@ -1,7 +1,7 @@
 [project]
 name = "Duck_Nodes"
 description = "Load data from Google Sheets, Google Docs, Excel, Word and TXT. Built-in login system for ComfyUI."
-version = "1.1.0"
+version = "1.1.2"
 license = {file = "LICENSE"}
 dependencies = ["pandas", "requests", "openpyxl", "python-docx", "aiohttp_session", "bcrypt", "Jinja2"]
 

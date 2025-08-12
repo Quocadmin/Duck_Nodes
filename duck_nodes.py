@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import requests
 import docx
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageDraw, ImageFont
 import bcrypt
 
 import server
@@ -186,7 +186,6 @@ async def get_login_page(request):
 
 @routes.post("/login/language")
 async def set_language_handler(request):
-    """Xử lý việc thay đổi ngôn ngữ từ giao diện đăng nhập."""
     data = await request.post()
     lang = data.get('lang')
     if lang in ['en', 'vi']:
@@ -447,13 +446,171 @@ class Duck_PromptLoader:
             return (lines[seed % len(lines)], len(lines))
         except Exception as e: print(f"❌ Lỗi khi đọc file: {e}"); return ("", 0)
 
+class Duck_TextReplacer:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "text_input": ("STRING", {"multiline": True}),
+                "find_string": ("STRING", {"multiline": False}),
+                "replace_with_string": ("STRING", {"multiline": False}),
+            }
+        }
+
+    CATEGORY = "Duck Nodes/Text"
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("text",)
+    FUNCTION = "replace_text"
+
+    def replace_text(self, text_input, find_string, replace_with_string):
+        new_text = text_input.replace(find_string, replace_with_string)
+        return (new_text,)
+
+class Duck_AddTextOverlay:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "image": ("IMAGE",),
+                "text": ("STRING", {"multiline": True, "default": "Duck Nodes"}),
+                "bar_mode": (["overlay", "underlay"],),
+                "bar_vertical_align": (["bottom", "top", "center"],),
+                "text_horizontal_align": (["center", "left", "right"],),
+                "text_vertical_align": (["center", "top", "bottom"],),
+                "bar_height": ("INT", {"default": 0, "min": 0, "max": 4096}),
+                "font_size": ("INT", {"default": 40, "min": 1, "max": 1024}),
+                "text_color": ("STRING", {"default": "#FFFFFF"}),
+                "background_color": ("STRING", {"default": "#000000"}),
+                "background_opacity": ("FLOAT", {"default": 0.66, "min": 0.0, "max": 1.0, "step": 0.01}),
+            }
+        }
+
+    CATEGORY = "Duck Nodes/Image"
+    RETURN_TYPES = ("IMAGE",)
+    FUNCTION = "add_overlay"
+
+    def get_text_width(self, text, font):
+        try:
+            return font.getlength(text)
+        except AttributeError:
+            bbox = font.getbbox(text)
+            return bbox[2] - bbox[0]
+
+    def add_overlay(self, image, text, bar_mode, bar_vertical_align, text_horizontal_align, text_vertical_align, bar_height, font_size, text_color, background_color, background_opacity):
+        output_images = []
+        
+        opacity_hex = f'{int(background_opacity * 255):02x}'
+        final_bg_color = f"{background_color}{opacity_hex}"
+
+        for img_tensor in image:
+            pil_image = Image.fromarray(np.clip(255. * img_tensor.cpu().numpy(), 0, 255).astype(np.uint8))
+            
+            try:
+                font = ImageFont.truetype("arial.ttf", font_size)
+            except IOError:
+                font = ImageFont.load_default()
+
+            padding = 20
+            line_spacing_multiplier = 1.2
+            img_width, img_height = pil_image.size
+            max_text_width = img_width - (padding * 2)
+
+            def wrap_text_to_lines(text_to_wrap, font_to_use, max_width):
+                final_lines = []
+                # First, respect user-defined newlines
+                initial_lines = text_to_wrap.splitlines()
+                if not initial_lines: return [""]
+
+                for line in initial_lines:
+                    # If a line is intentionally blank, preserve it
+                    if not line.strip():
+                        final_lines.append("")
+                        continue
+
+                    words = line.split(' ')
+                    current_line = words[0] if words else ""
+                    
+                    for word in words[1:]:
+                        test_line = current_line + " " + word
+                        if self.get_text_width(test_line, font_to_use) <= max_width:
+                            current_line = test_line
+                        else:
+                            final_lines.append(current_line)
+                            current_line = word
+                    final_lines.append(current_line)
+                return final_lines
+
+            wrapped_lines = wrap_text_to_lines(text, font, max_text_width)
+            
+            line_height = font_size * line_spacing_multiplier
+            
+            # Calculate the height of the entire text block for vertical centering
+            total_text_block_height = (len(wrapped_lines) -1) * line_height + font_size
+            
+            final_bar_height = bar_height if bar_height > 0 else total_text_block_height + padding
+
+            working_image = pil_image
+            canvas_width, canvas_height = img_width, img_height
+
+            if bar_mode == 'underlay':
+                canvas_height = img_height + int(final_bar_height)
+                new_canvas = Image.new('RGB', (canvas_width, canvas_height), (0,0,0))
+                
+                paste_y = int(final_bar_height) if bar_vertical_align == 'top' else 0
+                new_canvas.paste(pil_image, (0, paste_y))
+                working_image = new_canvas
+            
+            draw = ImageDraw.Draw(working_image, 'RGBA')
+
+            if bar_vertical_align == 'top':
+                bar_y_start = 0
+            elif bar_vertical_align == 'bottom':
+                bar_y_start = canvas_height - final_bar_height
+            else: # center
+                bar_y_start = (canvas_height - final_bar_height) / 2
+
+            draw.rectangle(
+                [(0, bar_y_start), (canvas_width, bar_y_start + final_bar_height)],
+                fill=final_bg_color
+            )
+            
+            if text_vertical_align == 'top':
+                y_start_for_text = bar_y_start + (padding / 2)
+            elif text_vertical_align == 'bottom':
+                y_start_for_text = bar_y_start + final_bar_height - total_text_block_height - (padding / 2)
+            else: # center
+                y_start_for_text = bar_y_start + (final_bar_height - total_text_block_height) / 2
+
+            for i, line in enumerate(wrapped_lines):
+                line_width = self.get_text_width(line, font)
+
+                if text_horizontal_align == 'left':
+                    x = padding
+                elif text_horizontal_align == 'right':
+                    x = canvas_width - line_width - padding
+                else: # center
+                    x = (canvas_width - line_width) / 2
+                
+                y = y_start_for_text + (i * line_height)
+                
+                draw.text((x, y), line, font=font, fill=text_color)
+            
+            img_array = np.array(working_image.convert("RGB")).astype(np.float32) / 255.0
+            output_tensor = torch.from_numpy(img_array).unsqueeze(0)
+            output_images.append(output_tensor)
+
+        final_tensor = torch.cat(output_images, dim=0)
+        return (final_tensor,)
+
 
 NODE_CLASS_MAPPINGS = {
     "Duck_LoadGoogleSheetOneRow": Duck_LoadGoogleSheetOneRow,
     "Duck_LoadGoogleDocLine": Duck_LoadGoogleDocLine,
     "Duck_LoadExcelRow": Duck_LoadExcelRow,
     "Duck_LoadWordLine": Duck_LoadWordLine,
-    "Duck_PromptLoader": Duck_PromptLoader
+    "Duck_PromptLoader": Duck_PromptLoader,
+    "Duck_TextReplacer": Duck_TextReplacer,
+    "Duck_AddTextOverlay": Duck_AddTextOverlay,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -462,4 +619,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "Duck_LoadExcelRow": "Duck - Load Excel Row",
     "Duck_LoadWordLine": "Duck - Load Word Line",
     "Duck_PromptLoader": "Duck - Load Prompt From File",
+    "Duck_TextReplacer": "Duck - Text Replacer",
+    "Duck_AddTextOverlay": "Duck - Add Text Overlay",
 }
