@@ -62,14 +62,14 @@ Jinja2
 ### 1. Khởi động ComfyUI
 Chạy ComfyUI như bình thường, extension sẽ được tự động tải.
 Khi lần đầu truy cập ComfyUI, bạn sẽ được yêu cầu **tạo username và password**.
-<img width="822" height="636" alt="image" src="https://github.com/user-attachments/assets/00f3240f-cfa9-47db-92c2-1c5218395c15" />
-
 
 ### 2. Truy cập trang đăng nhập
 
 ## 🖼️ Giao diện đăng nhập
 - Nhập **username** và **password** để đăng nhập.
-<img width="882" height="512" alt="image" src="https://github.com/user-attachments/assets/b12cb978-8a5a-4c06-87b7-1211eb1ddeda" />
+<img width="599" height="550" alt="image" src="https://github.com/user-attachments/assets/84c4fb4c-d1b8-4b70-ad56-d91d2ccd8679" />
+<img width="1055" height="551" alt="image" src="https://github.com/user-attachments/assets/5ce203b6-2a55-4226-b565-8b9329930cb7" />
+
 
 ---
 
