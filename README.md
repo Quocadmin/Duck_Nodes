@@ -94,7 +94,7 @@ Hệ thống đăng nhập được thiết kế với sự chú trọng đến 
       - Giao diện sẽ gửi **lời chào theo thời gian thực** (Chào buổi sáng, chiều, tối).
       - Biểu tượng con mắt (👁️) tại ô mật khẩu cho phép **hiển thị/ẩn mật khẩu** đang gõ, giúp bạn nhập chính xác hơn.
 
-<img width="599" height="550" alt="image" src="https://github.com/user-attachments/assets/84c4fb4c-d1b8-4b70-ad56-d91d2ccd8679" />
+<img width="1215" height="613" alt="image" src="https://github.com/user-attachments/assets/0822e6cc-79a0-4101-891f-ab97e2ce2cf0" />
 <img width="1055" height="551" alt="image" src="https://github.com/user-attachments/assets/5ce203b6-2a55-4226-b565-8b9329930cb7" />
 
 -----
