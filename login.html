@@ -16,6 +16,27 @@
         animation: zoomIn 0.4s ease;
         position: relative;
     }
+    .language-switcher {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+    .lang-btn {
+        background: none;
+        border: 1px solid #555;
+        color: #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 12px;
+        margin-left: 5px;
+        transition: background 0.2s, border-color 0.2s;
+    }
+    .lang-btn.active {
+        background: #ff9800;
+        color: white;
+        border-color: #ff9800;
+    }
     .logo { text-align: center; font-size: 40px; margin-bottom: 10px; padding-top: 20px; }
     .title { text-align: center; font-size: 22px; font-weight: bold; margin-bottom: 20px; }
     #feedback {
@@ -31,7 +52,18 @@
         background: rgba(255,255,255,0.1); color: white; font-size: 14px;
         outline: none; box-sizing: border-box; transition: background 0.3s;
     }
+    .input-group input[type="password"] {
+        padding-right: 40px;
+    }
     .input-group input:focus { background: rgba(255,255,255,0.2); }
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        user-select: none;
+    }
     .login-btn {
         width: 100%; padding: 12px; background: linear-gradient(45deg, #26a69a, #ff9800);
         border: none; border-radius: 8px; color: white; font-size: 16px;
@@ -57,6 +89,17 @@
 <body>
 
 <div class="login-card">
+    <div class="language-switcher">
+        <form action="/login/language" method="post" style="display: inline;">
+            <input type="hidden" name="lang" value="en">
+            <button type="submit" class="lang-btn {% if lang == 'en' %}active{% endif %}">English</button>
+        </form>
+        <form action="/login/language" method="post" style="display: inline;">
+            <input type="hidden" name="lang" value="vi">
+            <button type="submit" class="lang-btn {% if lang == 'vi' %}active{% endif %}">Tiếng Việt</button>
+        </form>
+    </div>
+
     <div class="logo">🦆</div>
     <div class="title" id="greet-title">ComfyUI</div>
 
@@ -66,6 +109,7 @@
     </div>
     {% endif %}
 
+    <!-- Form Đăng nhập/Đăng ký -->
     <div id="login-form" class="form-container" style="display: block;">
         <form action="/login" method="post">
             <div class="title">
@@ -84,6 +128,7 @@
             <label>{{ T.password }}</label>
             <div class="input-group">
                 <input type="password" id="password" name="password" placeholder="{{ T.enter_password }}" required>
+                <span class="toggle-password" onclick="togglePassword(this, 'password')">👁️</span>
             </div>
 
             <button type="submit" class="login-btn">
@@ -102,20 +147,24 @@
         {% endif %}
     </div>
 
+    <!-- Form Đổi mật khẩu -->
     <div id="change-password-form" class="form-container">
         <form action="/login/change" method="post">
             <div class="title">{{ T.change_password }}</div>
             <label>{{ T.old_password }}</label>
             <div class="input-group">
-                <input type="password" name="old_password" placeholder="{{ T.current_password }}" required>
+                <input type="password" id="old_password" name="old_password" placeholder="{{ T.current_password }}" required>
+                <span class="toggle-password" onclick="togglePassword(this, 'old_password')">👁️</span>
             </div>
             <label>{{ T.new_password }}</label>
             <div class="input-group">
-                <input type="password" name="new_password" placeholder="{{ T.choose_new_password }}" required>
+                <input type="password" id="new_password" name="new_password" placeholder="{{ T.choose_new_password }}" required>
+                <span class="toggle-password" onclick="togglePassword(this, 'new_password')">👁️</span>
             </div>
             <label>{{ T.confirm_new_password }}</label>
             <div class="input-group">
-                <input type="password" name="confirm_password" placeholder="{{ T.confirm_the_new_password }}" required>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="{{ T.confirm_the_new_password }}" required>
+                <span class="toggle-password" onclick="togglePassword(this, 'confirm_password')">👁️</span>
             </div>
             <button type="submit" class="login-btn">{{ T.update_password }}</button>
         </form>
@@ -136,6 +185,17 @@
         const feedbackEl = document.getElementById('feedback');
         if (feedbackEl) {
             feedbackEl.innerHTML = '';
+        }
+    }
+
+    function togglePassword(eyeIcon, inputId) {
+        const passwordInput = document.getElementById(inputId);
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.textContent = "🙈";
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.textContent = "👁️";
         }
     }
 
