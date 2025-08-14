@@ -2,40 +2,31 @@
 
 **Duck Nodes** là một bộ mở rộng (extension) dành cho **ComfyUI**, cung cấp nhiều node tiện ích để tải dữ liệu từ nhiều nguồn khác nhau, xử lý văn bản, hình ảnh và tích hợp **hệ thống đăng nhập bảo mật** cho ComfyUI.
 
------
+***
 
-## ✨ Tính năng chính
-
-### 📂 Nodes Tải Dữ Liệu
+✨ **Tính năng chính**
+***
+**📂 Nodes Tải Dữ Liệu**
 
 Lấy dòng dữ liệu từ các tệp tin, nơi mỗi hàng được hiểu là một prompt riêng biệt, giúp tự động hóa quy trình làm việc.
-
-  - **Duck - Load Google Sheet Row**  
-    Lấy dòng dữ liệu từ Google Sheet (yêu cầu quyền xem công khai).
-
-  - **Duck - Load Google Doc Line**  
-    Lấy dòng văn bản từ Google Docs (yêu cầu quyền xem công khai).
-
-  - **Duck - Load Excel Row**  
-    Lấy dòng từ file Excel (.xlsx) lưu trên máy.
-
-  - **Duck - Load Word Line**  
-    Lấy dòng từ file Word (.docx) lưu trên máy.
-
-  - **Duck - Load Prompt From File**  
-    Lấy dòng từ file `.txt` lưu trên máy.
-
------
-
-### 🛠️ Nodes Tiện Ích & Xử Lý Ảnh
+* **Duck - Load Google Sheet Row** Lấy dòng dữ liệu từ Google Sheet (yêu cầu quyền xem công khai).
+* **Duck - Load Google Doc Line** Lấy dòng văn bản từ Google Docs (yêu cầu quyền xem công khai).
+* **Duck - Load Excel Row** Lấy dòng từ file Excel (.xlsx) lưu trên máy.
+* **Duck - Load Word Line** Lấy dòng từ file Word (.docx) lưu trên máy.
+* **Duck - Load Prompt From File** Lấy dòng từ file .txt lưu trên máy.
+***
+**🛠️ Nodes Tiện Ích & Xử Lý Ảnh**
 
 Các công cụ giúp xử lý văn bản và hình ảnh một cách linh hoạt.
+* **Duck - Text Replacer** Tìm kiếm và thay thế một chuỗi ký tự trong văn bản đầu vào.
+* **Duck - Add Text Overlay** Thêm một dải văn bản tùy chỉnh lên trên hoặc dưới ảnh. Hỗ trợ tùy chỉnh toàn diện: vị trí dải nền (trên, giữa, dưới), căn lề văn bản (trái, giữa, phải), màu sắc, cỡ chữ, độ cao của dải nền và độ trong suốt.
+***
+**🖼️ Nodes Tạo Latent**
 
-  - **Duck - Text Replacer** Tìm kiếm và thay thế một chuỗi ký tự trong văn bản đầu vào.
-
-  - **Duck - Add Text Overlay** Thêm một dải văn bản tùy chỉnh lên trên hoặc dưới ảnh. Hỗ trợ tùy chỉnh toàn diện: vị trí dải nền (trên, giữa, dưới), căn lề văn bản (trái, giữa, phải), màu sắc, cỡ chữ, độ cao của dải nền và độ trong suốt.
-
------
+Tạo nhanh các latent trống với các kích thước và tỷ lệ khung hình được thiết lập sẵn, giúp đơn giản hóa bước khởi tạo.
+* **Duck - Qwen Aspect Ratios** Cung cấp các tỷ lệ khung hình và kích thước được tối ưu hóa cho các mô hình như Qwen, giúp tạo nhanh latent trống với kích thước chuẩn.
+* **Duck - Empty Latent Image** Tạo latent trống từ một danh sách đa dạng các kích thước và tỷ lệ khung hình phổ biến, được bổ sung và sắp xếp lại để thuận tiện cho nhiều mục đích sử dụng khác nhau.
+***
 
 ## 📦 Cài đặt
 
