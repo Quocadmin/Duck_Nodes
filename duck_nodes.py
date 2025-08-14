@@ -24,6 +24,8 @@ from aiohttp import web
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import folder_paths
 
+from nodes import EmptyLatentImage
+
 node_dir = os.path.dirname(__file__)
 comfy_dir = os.path.dirname(folder_paths.__file__)
 user_data_dir = os.path.join(comfy_dir, "user")
@@ -466,6 +468,100 @@ class Duck_TextReplacer:
         new_text = text_input.replace(find_string, replace_with_string)
         return (new_text,)
 
+class Duck_QwenAspectRatios:
+    ASPECT_RATIOS = {
+        "1:1": (1328, 1328),
+        "16:9": (1664, 928),
+        "9:16": (928, 1664),
+        "4:3": (1472, 1104),
+        "3:4": (1104, 1472),
+        "3:2": (1584, 1056),
+        "2:3": (1056, 1584),
+    }
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        dimension_strings = [f"{w} x {h} ({r})" for r, (w, h) in cls.ASPECT_RATIOS.items()]
+        
+        return {
+            "required": {
+                "dimensions": (dimension_strings, {"default": dimension_strings[0]}),
+                "invert": ("BOOLEAN", {"default": False}),
+                "batch_size": ("INT", {"default": 1, "min": 1, "max": 4096}),
+            },
+        }
+
+    RETURN_TYPES = ("LATENT", "INT", "INT")
+    RETURN_NAMES = ("Latent", "Width", "Height")
+    FUNCTION = "generate"
+    CATEGORY = "Duck Nodes/Latents"
+
+    def generate(self, dimensions, invert, batch_size):
+        parts = dimensions.split(' ')
+        width = int(parts[0])
+        height = int(parts[2])
+        
+        if invert:
+            width, height = height, width
+        
+        latent = EmptyLatentImage().generate(width, height, batch_size)[0]
+        return (latent, width, height)
+
+class Duck_EmptyLatentImage:
+    PRESET_DATA = [
+        ("0.552:1", (672, 1216)),
+        ("0.562:1", (720, 1280)),
+        ("0.666:1", (512, 768)),
+        ("0.684:1", (832, 1216)),
+        ("0.75:1", (768, 1024)),
+        ("0.8:1", (640, 800)),
+        ("1:1", (512, 512)),
+        ("1:1", (1024, 1024)),
+        ("1.25:1", (800, 640)),
+        ("1.25:1", (1024, 819)),
+        ("1.286:1", (1152, 896)),
+        ("1.46:1", (1216, 832)),
+        ("1.5:1", (768, 512)),
+        ("1.75:1", (896, 512)),
+        ("1.75:1", (1344, 768)),
+        ("1.778:1", (912, 512)),
+        ("1.778:1", (1024, 576)),
+        ("1.778:1", (1280, 720)),
+        ("1.875:1", (960, 512)),
+        ("2:1", (1024, 512)),
+        ("2.333:1", (1344, 576)),
+        ("2.398:1", (1228, 512)),
+        ("2.4:1", (1536, 640)),
+    ]
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        dimension_strings = [f"{w}x{h} ({r})" for r, (w, h) in cls.PRESET_DATA]
+        
+        return {
+            "required": {
+                "dimensions": (dimension_strings, {"default": dimension_strings[0]}),
+                "invert": ("BOOLEAN", {"default": False}),
+                "batch_size": ("INT", {"default": 1, "min": 1, "max": 4096}),
+            },
+        }
+
+    RETURN_TYPES = ("LATENT", "INT", "INT")
+    RETURN_NAMES = ("Latent", "Width", "Height")
+    FUNCTION = "generate"
+    CATEGORY = "Duck Nodes/Latents"
+
+    def generate(self, dimensions, invert, batch_size):
+        parts = dimensions.replace('x', ' ').split(' ')
+        width = int(parts[0])
+        height = int(parts[1])
+        
+        if invert:
+            width, height = height, width
+        
+        latent = EmptyLatentImage().generate(width, height, batch_size)[0]
+        return (latent, width, height)
+
 class Duck_AddTextOverlay:
     @classmethod
     def INPUT_TYPES(s):
@@ -517,12 +613,10 @@ class Duck_AddTextOverlay:
 
             def wrap_text_to_lines(text_to_wrap, font_to_use, max_width):
                 final_lines = []
-                # First, respect user-defined newlines
                 initial_lines = text_to_wrap.splitlines()
                 if not initial_lines: return [""]
 
                 for line in initial_lines:
-                    # If a line is intentionally blank, preserve it
                     if not line.strip():
                         final_lines.append("")
                         continue
@@ -544,7 +638,6 @@ class Duck_AddTextOverlay:
             
             line_height = font_size * line_spacing_multiplier
             
-            # Calculate the height of the entire text block for vertical centering
             total_text_block_height = (len(wrapped_lines) -1) * line_height + font_size
             
             final_bar_height = bar_height if bar_height > 0 else total_text_block_height + padding
@@ -566,7 +659,7 @@ class Duck_AddTextOverlay:
                 bar_y_start = 0
             elif bar_vertical_align == 'bottom':
                 bar_y_start = canvas_height - final_bar_height
-            else: # center
+            else:  
                 bar_y_start = (canvas_height - final_bar_height) / 2
 
             draw.rectangle(
@@ -578,7 +671,7 @@ class Duck_AddTextOverlay:
                 y_start_for_text = bar_y_start + (padding / 2)
             elif text_vertical_align == 'bottom':
                 y_start_for_text = bar_y_start + final_bar_height - total_text_block_height - (padding / 2)
-            else: # center
+            else: 
                 y_start_for_text = bar_y_start + (final_bar_height - total_text_block_height) / 2
 
             for i, line in enumerate(wrapped_lines):
@@ -588,7 +681,7 @@ class Duck_AddTextOverlay:
                     x = padding
                 elif text_horizontal_align == 'right':
                     x = canvas_width - line_width - padding
-                else: # center
+                else: 
                     x = (canvas_width - line_width) / 2
                 
                 y = y_start_for_text + (i * line_height)
@@ -611,6 +704,8 @@ NODE_CLASS_MAPPINGS = {
     "Duck_PromptLoader": Duck_PromptLoader,
     "Duck_TextReplacer": Duck_TextReplacer,
     "Duck_AddTextOverlay": Duck_AddTextOverlay,
+    "Duck_QwenAspectRatios": Duck_QwenAspectRatios,
+    "Duck_EmptyLatentImage": Duck_EmptyLatentImage,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -621,4 +716,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "Duck_PromptLoader": "Duck - Load Prompt From File",
     "Duck_TextReplacer": "Duck - Text Replacer",
     "Duck_AddTextOverlay": "Duck - Add Text Overlay",
+    "Duck_QwenAspectRatios": "Duck - Qwen Aspect Ratios",
+    "Duck_EmptyLatentImage": "Duck - Empty Latent Image",
 }
