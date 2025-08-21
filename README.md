@@ -104,9 +104,6 @@ Các node này giúp đơn giản hóa bước đầu tiên của mọi workflow
 
 Sau khi khởi động, bạn sẽ thấy lại màn hình thiết lập ban đầu. Tại đây, bạn có thể tạo một tài khoản và mật khẩu mới, hoặc nhấn **"Skip (Disable Login)"** để tắt hoàn toàn tính năng đăng nhập.
 ***
-Of course\! Here is the complete and final guide in English.
-
------
 
 ### Duck Nodes for ComfyUI: The Complete Guide (Installation, Features & Management)
 
