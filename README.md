@@ -1,36 +1,10 @@
-# 🦆 Duck Nodes for ComfyUI
+### Duck Nodes for ComfyUI: Hướng Dẫn Toàn Tập (Cài Đặt, Tính Năng & Quản Lý)
 
-**Duck Nodes** là một bộ mở rộng (extension) dành cho **ComfyUI**, cung cấp nhiều node tiện ích để tải dữ liệu từ nhiều nguồn khác nhau, xử lý văn bản, hình ảnh và tích hợp **hệ thống đăng nhập bảo mật** cho ComfyUI.
+**Duck Nodes** được xây dựng dựa trên ba trụ cột chính: **Tải và tự động hóa dữ liệu**, **Tiện ích xử lý văn bản & hình ảnh**, và **Bảo mật cấp doanh nghiệp**.
 
-***
+### 📦 Cài đặt
 
-✨ **Tính năng chính**
-***
-**📂 Nodes Tải Dữ Liệu**
-
-Lấy dòng dữ liệu từ các tệp tin, nơi mỗi hàng được hiểu là một prompt riêng biệt, giúp tự động hóa quy trình làm việc.
-* **Duck - Load Google Sheet Row** Lấy dòng dữ liệu từ Google Sheet (yêu cầu quyền xem công khai).
-* **Duck - Load Google Doc Line** Lấy dòng văn bản từ Google Docs (yêu cầu quyền xem công khai).
-* **Duck - Load Excel Row** Lấy dòng từ file Excel (.xlsx) lưu trên máy.
-* **Duck - Load Word Line** Lấy dòng từ file Word (.docx) lưu trên máy.
-* **Duck - Load Prompt From File** Lấy dòng từ file .txt lưu trên máy.
-***
-**🛠️ Nodes Tiện Ích & Xử Lý Ảnh**
-
-Các công cụ giúp xử lý văn bản và hình ảnh một cách linh hoạt.
-* **Duck - Text Replacer** Tìm kiếm và thay thế một chuỗi ký tự trong văn bản đầu vào.
-* **Duck - Add Text Overlay** Thêm một dải văn bản tùy chỉnh lên trên hoặc dưới ảnh. Hỗ trợ tùy chỉnh toàn diện: vị trí dải nền (trên, giữa, dưới), căn lề văn bản (trái, giữa, phải), màu sắc, cỡ chữ, độ cao của dải nền và độ trong suốt.
-***
-**🖼️ Nodes Tạo Latent**
-
-Tạo nhanh các latent trống với các kích thước và tỷ lệ khung hình được thiết lập sẵn, giúp đơn giản hóa bước khởi tạo.
-* **Duck - Qwen Aspect Ratios** Cung cấp các tỷ lệ khung hình và kích thước được tối ưu hóa cho các mô hình như Qwen, giúp tạo nhanh latent trống với kích thước chuẩn.
-* **Duck - Empty Latent Image** Tạo latent trống từ một danh sách đa dạng các kích thước và tỷ lệ khung hình phổ biến, được bổ sung và sắp xếp lại để thuận tiện cho nhiều mục đích sử dụng khác nhau.
-***
-
-## 📦 Cài đặt
-
-### 1\. Tải và đặt extension
+**1. Tải và đặt extension**
 
 Clone repository này vào thư mục `custom_nodes` của ComfyUI:
 
@@ -42,16 +16,16 @@ cd ComfyUI/custom_nodes
 git clone https://github.com/duckmartians/Duck_Nodes.git
 ```
 
-### 2\. Cài đặt dependencies
+**2. Cài đặt dependencies**
 
-Bộ node này tự động kiểm tra và cài đặt thư viện cần thiết khi khởi động ComfyUI.  
+Bộ node này tự động kiểm tra và cài đặt thư viện cần thiết khi khởi động ComfyUI.
 Tuy nhiên, bạn có thể cài thủ công bằng lệnh sau trong môi trường của ComfyUI:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**`requirements.txt` gồm:**
+**`requirements.txt` bao gồm:**
 
 ```txt
 pandas
@@ -63,66 +37,178 @@ bcrypt
 Jinja2
 ```
 
+### ✨ Các Nhóm Node Chức Năng
+
+#### 1\. 📂 Nhóm Node Tải Dữ Liệu: Kho Prompt Vô Tận
+
+Đây là nhóm node cốt lõi giúp tự động hóa quy trình sáng tạo của bạn. Thay vì phải sao chép-dán từng prompt, bạn có thể quản lý chúng trong các file quen thuộc.
+
+  * **Các Node:**
+      * `Duck - Load Google Sheet Row`: Đọc dữ liệu theo từng dòng từ Google Sheet công khai.
+      * `Duck - Load Google Doc Line`: Đọc từng dòng văn bản từ Google Docs công khai.
+      * `Duck - Load Excel Row`: Đọc dữ liệu từ file Excel (`.xlsx`) trên máy tính của bạn.
+      * `Duck - Load Word Line`: Đọc từng đoạn văn từ file Word (`.docx`) trên máy.
+      * `Duck - Load Prompt From File`: Đọc từng dòng từ file văn bản thuần túy (`.txt`).
+  * **Điểm Mạnh:** Biến các file văn bản và bảng tính quen thuộc thành một kho prompt sống, dễ dàng quản lý và cập nhật. Khi kết hợp với tham số `seed` và chế độ lặp của ComfyUI, bạn có thể tự động chạy hàng trăm, hàng nghìn prompt khác nhau mà không cần can thiệp thủ công.
+<img width="1028" height="830" alt="image" src="https://github.com/user-attachments/assets/5ca19a64-ce8a-459c-8785-8d940edd6f48" />
+
+
+#### 2\. 🛠️ Nhóm Node Tiện Ích & Xử Lý Ảnh: Tinh Chỉnh Workflow
+
+Nhóm này cung cấp các công cụ linh hoạt để xử lý văn bản và hình ảnh ngay trong ComfyUI.
+
+  * **`Duck - Text Replacer`**
+      * **Chức năng:** Tìm kiếm và thay thế một chuỗi ký tự trong văn bản đầu vào.
+      * **Điểm Mạnh:** Cực kỳ hữu ích để tạo ra các biến thể prompt một cách nhanh chóng. Ví dụ, bạn có thể dùng một prompt mẫu và chỉ thay đổi tên nhân vật, màu sắc hoặc bối cảnh một cách tự động.
+  * **`Duck - Add Text Overlay`**
+      * **Chức năng:** Thêm một dải văn bản (text bar) lên trên hoặc dưới hình ảnh.
+      * **Điểm Mạnh:** Đây là một công cụ đóng dấu (branding) và thêm chú thích chuyên nghiệp. Sức mạnh của nó nằm ở khả năng **tùy chỉnh toàn diện**: bạn có thể kiểm soát mọi thứ từ vị trí, căn lề, màu sắc, cỡ chữ, cho đến độ trong suốt của nền.
+
+#### 3\. 🖼️ Nhóm Node Tạo Latent: Khởi Đầu Nhanh Chóng
+
+Các node này giúp đơn giản hóa bước đầu tiên của mọi workflow: tạo ra một "khung tranh" (latent) trống với kích thước chuẩn.
+
+  * **`Duck - Qwen Aspect Ratios`**
+      * **Chức năng:** Cung cấp một danh sách các tỷ lệ khung hình và kích thước được tối ưu hóa riêng cho các mô hình AI của Qwen.
+      * **Điểm Mạnh:** Giúp người dùng **đạt được chất lượng hình ảnh tốt nhất** mà không cần phải tra cứu hay ghi nhớ các thông số kỹ thuật phức tạp của model.
+  * **`Duck - Empty Latent Image`**
+      * **Chức năng:** Tạo latent trống từ một danh sách dài các kích thước và tỷ lệ khung hình phổ biến (1:1, 16:9, 4:3, v.v.).
+      * **Điểm Mạnh:** Tiết kiệm thời gian và công sức so với việc nhập chiều rộng và chiều cao thủ công, khuyến khích người dùng thử nghiệm với các bố cục khung hình khác nhau một cách dễ dàng.
+
+### 🛡️ Hệ Thống Đăng Nhập và Bảo Mật
+
+Đây là tính năng độc đáo và đáng giá nhất của Duck Nodes, biến ComfyUI thành một dịch vụ web an toàn.
+
+  * **Chức năng:** Tích hợp một trang đăng nhập chuyên nghiệp, yêu cầu xác thực trước khi truy cập vào giao diện ComfyUI. Hỗ trợ đa ngôn ngữ (Anh/Việt), cho phép thay đổi mật khẩu và có thể tắt đi nếu không cần thiết.
+  * **Điểm Mạnh:**
+      * Biến ComfyUI thành Dịch vụ An toàn: Cho phép bạn chạy ComfyUI trên một máy chủ từ xa và truy cập qua mạng mà không lo bị người khác can thiệp. Đây là một tính năng **cấp doanh nghiệp** mà hiếm có extension nào cung cấp.
+<img width="1215" height="613" alt="image" src="https://github.com/user-attachments/assets/16a91665-2cb9-4bb7-9992-d050ca15b24a" />
+<img width="1055" height="551" alt="image" src="https://github.com/user-attachments/assets/2eddced7-5e52-447c-bc07-661cb6021b84" />
+
+### 🔑 Quản Lý Mật Khẩu
+
+#### Hướng dẫn xóa mật khẩu (Reset)
+
+Để xóa hoàn toàn mật khẩu đã đặt và quay lại màn hình thiết lập ban đầu, bạn cần xóa tệp tin lưu trữ thông tin đăng nhập.
+
+**Các bước thực hiện:**
+
+1.  **Tắt ComfyUI:** Đảm bảo rằng ComfyUI không đang chạy để tránh lỗi.
+2.  **Đi tới thư mục `user`:** Mở thư mục cài đặt ComfyUI của bạn và tìm đến thư mục con có tên là `user`. Đường dẫn sẽ tương tự như sau:
+      * `ComfyUI/user/`
+3.  **Xóa tệp tin cấu hình:** Bên trong thư mục `user`, tìm và xóa tệp có tên là `PASSWORD`.
+      * (Tùy chọn) Để reset hoàn toàn, bạn cũng có thể xóa tệp `login_config.json`.
+<img width="761" height="366" alt="image" src="https://github.com/user-attachments/assets/f526ab22-afc5-4c1f-a586-4c3009941ed4" />
+
+4.  **Khởi động lại ComfyUI:** Chạy lại ComfyUI.
+
+Sau khi khởi động, bạn sẽ thấy lại màn hình thiết lập ban đầu. Tại đây, bạn có thể tạo một tài khoản và mật khẩu mới, hoặc nhấn **"Skip (Disable Login)"** để tắt hoàn toàn tính năng đăng nhập.
+***
+Of course\! Here is the complete and final guide in English.
+
 -----
 
-## 🚀 Sử dụng
+### Duck Nodes for ComfyUI: The Complete Guide (Installation, Features & Management)
 
-### 1\. Khởi động ComfyUI
+**Duck Nodes** is a comprehensive toolkit that upgrades ComfyUI in every aspect. It is built on three main pillars: **Data Loading and Automation**, **Utility & Image Processing Nodes**, and **Enterprise-grade Security**.
 
-Chạy ComfyUI như bình thường, extension sẽ được tự động tải.
-Khi lần đầu truy cập ComfyUI, bạn sẽ được yêu cầu **tạo username và password** để bảo vệ giao diện làm việc.
+### 📦 Installation
 
-### 2\. Giao diện đăng nhập & Các tiện ích
+**1. Download and place the extension**
 
-Hệ thống đăng nhập được thiết kế với sự chú trọng đến bảo mật và trải nghiệm người dùng:
+Clone this repository into the `custom_nodes` directory of your ComfyUI:
 
-  - **Thiết lập linh hoạt:**
-      - Lần đầu sử dụng, bạn sẽ được yêu cầu tạo tài khoản và mật khẩu để bảo vệ ComfyUI.
-      - Nếu không có nhu cầu bảo mật, bạn có thể chọn **"Skip (Disable Login)"** để tắt hoàn toàn tính năng này.
-  - **Giao diện đa ngôn ngữ:** Dễ dàng chuyển đổi qua lại giữa **Tiếng Anh** và **Tiếng Việt** ngay trên màn hình đăng nhập.
-  - **Quản lý tài khoản:** Sau khi đăng nhập, bạn có thể truy cập chức năng **"Change Password"** để thay đổi mật khẩu một cách an toàn.
-  - **Trải nghiệm thân thiện:**
-      - Giao diện sẽ gửi **lời chào theo thời gian thực** (Chào buổi sáng, chiều, tối).
-      - Biểu tượng con mắt (👁️) tại ô mật khẩu cho phép **hiển thị/ẩn mật khẩu** đang gõ, giúp bạn nhập chính xác hơn.
+```bash
+cd ComfyUI/custom_nodes
+```
 
-<img width="1215" height="613" alt="image" src="https://github.com/user-attachments/assets/0822e6cc-79a0-4101-891f-ab97e2ce2cf0" />
-<img width="1055" height="551" alt="image" src="https://github.com/user-attachments/assets/5ce203b6-2a55-4226-b565-8b9329930cb7" />
+```bash
+git clone https://github.com/duckmartians/Duck_Nodes.git
+```
 
------
+**2. Install dependencies**
 
-### 3\. Sử dụng các node Duck
+This node pack automatically checks and installs the necessary libraries when ComfyUI starts.
+However, you can install them manually with the following command in your ComfyUI environment:
 
-Trong ComfyUI, tìm trong **Category: Duck Nodes/** để thấy các node mới:
-  - Duck - Load Google Sheet Row
-  - Duck - Load Google Doc Line
-  - Duck - Load Excel Row
-  - Duck - Load Word Line
-  - Duck - Load Prompt From File
-  - Duck - Text Replacer
-  - Duck - Add Text Overlay
+```bash
+pip install -r requirements.txt
+```
 
-<img width="1028" height="830" alt="image" src="https://github.com/user-attachments/assets/a8a244bc-af51-456b-bb8f-633b41fe1cbf" />
+**`requirements.txt` includes:**
 
-📌 **Cách hoạt động của các node tải dữ liệu:**
+```txt
+pandas
+requests
+openpyxl
+python-docx
+aiohttp_session
+bcrypt
+Jinja2
+```
 
-  - Khi bạn bật chế độ "control\_after\_generate" (ví dụ: increment) cho đầu vào `seed`, ComfyUI sẽ nhớ vị trí dòng cuối cùng đã đọc.
-  - Lần chạy tiếp theo, nó tự động tăng chỉ số `seed` lên 1, rồi đọc prompt ở dòng mới theo đúng thứ tự.
-  - Khi tới dòng cuối cùng, nó sẽ quay về dòng đầu tiên (hoạt động theo vòng lặp).
+### ✨ Functional Node Groups
 
------
+#### 1\. 📂 Data Loading Nodes: An Endless Prompt Repository
 
-## 🛡️ Bảo mật
+This is the core group of nodes that helps automate your creative process. Instead of copy-pasting every prompt, you can manage them in familiar files.
 
-  - **Mật khẩu** được lưu dưới dạng **hash bcrypt**, không bao giờ lưu dưới dạng văn bản thuần.  
-  - **Token API** được tạo ra từ chuỗi hash của mật khẩu để đảm bảo an toàn khi truy cập qua API.  
-  - **Session cookie** được mã hóa bằng một khóa ngẫu nhiên mỗi khi server khởi động.
+  * **The Nodes:**
+      * `Duck - Load Google Sheet Row`: Reads data row by row from a public Google Sheet.
+      * `Duck - Load Google Doc Line`: Reads each line of text from a public Google Docs.
+      * `Duck - Load Excel Row`: Reads data from an Excel file (`.xlsx`) on your computer.
+      * `Duck - Load Word Line`: Reads each paragraph from a Word file (`.docx`) on your machine.
+      * `Duck - Load Prompt From File`: Reads each line from a plain text file (`.txt`).
+  * **Key Strengths:** This feature turns familiar text files and spreadsheets into a living, easy-to-manage prompt repository. When combined with the `seed` parameter and ComfyUI's batch mode, you can automatically run hundreds or thousands of different prompts without manual intervention.
+<img width="1028" height="830" alt="image" src="https://github.com/user-attachments/assets/5ca19a64-ce8a-459c-8785-8d940edd6f48" />
 
------
+#### 2\. 🛠️ Utility & Image Processing Nodes: Fine-tuning the Workflow
 
-## 📝 Giấy phép
+This group provides flexible tools for processing text and images directly within ComfyUI.
 
-MIT License © 2025 Duck Martians AI Labs
+  * **`Duck - Text Replacer`**
+      * **Functionality:** Finds and replaces a string of characters in the input text.
+      * **Key Strengths:** Extremely useful for quickly creating prompt variations. For example, you can use a template prompt and automatically change only the character name, color, or setting.
+  * **`Duck - Add Text Overlay`**
+      * **Functionality:** Adds a text bar on top of or below an image.
+      * **Key Strengths:** This is a professional tool for branding and captioning. Its power lies in its **comprehensive customization**: you can control everything from the position, alignment, color, and font size to the background's opacity.
 
-Bạn được phép sử dụng, sửa đổi và phân phối phần mềm này cho mục đích cá nhân hoặc thương mại, miễn là giữ lại thông tin bản quyền.
+#### 3\. 🖼️ Latent Generation Nodes: A Quick Start
 
------
+These nodes simplify the first step of any workflow: creating an empty "canvas" (latent) with standard dimensions.
+
+  * **`Duck - Qwen Aspect Ratios`**
+      * **Functionality:** Provides a list of aspect ratios and dimensions specifically optimized for Qwen's AI models.
+      * **Key Strengths:** Helps users **achieve the best image quality** without needing to look up or remember the model's complex technical specifications.
+  * **`Duck - Empty Latent Image`**
+      * **Functionality:** Creates an empty latent from a long list of common sizes and aspect ratios (1:1, 16:9, 4:3, etc.).
+      * **Key Strengths:** Saves time and effort compared to manually entering width and height, and encourages users to easily experiment with different frame compositions.
+
+### 🛡️ Login and Security System
+
+This is the most unique and valuable feature of Duck Nodes, transforming ComfyUI into a secure web service.
+
+  * **Functionality:** Integrates a professional login page that requires authentication before accessing the ComfyUI interface. It supports multiple languages (English/Vietnamese), allows for password changes, and can be disabled if not needed.
+  * **Key Strengths:**
+      * Transforms ComfyUI into a Secure Service: It allows you to run ComfyUI on a remote server and access it over the network without worrying about unauthorized access. This is an **enterprise-grade feature** rarely found in community extensions.
+<img width="1215" height="613" alt="image" src="https://github.com/user-attachments/assets/16a91665-2cb9-4bb7-9992-d050ca15b24a" />
+<img width="1055" height="551" alt="image" src="https://github.com/user-attachments/assets/2eddced7-5e52-447c-bc07-661cb6021b84" />
+
+### 🔑 Password Management
+
+#### How to Delete the Password (Reset)
+
+To completely delete the set password and return to the initial setup screen, you need to delete the file that stores the login information.
+
+**Steps:**
+
+1.  **Shut down ComfyUI:** Ensure that ComfyUI is not running to avoid any errors.
+2.  **Navigate to the `user` directory:** Open your ComfyUI installation folder and find the subdirectory named `user`. The path will look like this:
+      * `ComfyUI/user/`
+3.  **Delete the configuration files:** Inside the `user` directory, find and delete the file named `PASSWORD`.
+      * (Optional) For a full reset, you can also delete the `login_config.json` file.
+<img width="761" height="366" alt="image" src="https://github.com/user-attachments/assets/f526ab22-afc5-4c1f-a586-4c3009941ed4" />
+
+4.  **Restart ComfyUI:** Run ComfyUI again.
+
+After restarting, you will see the initial setup screen again. From here, you can create a new account and password, or press **"Skip (Disable Login)"** to turn off the login feature completely.
